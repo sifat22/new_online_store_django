@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<section class="py-3 bg-light">
+    <div class="container">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url "home" %}">Home</a></li>
+          <li class="breadcrumb-item"><a href="{% url "store" %}" aria-current="page">Items</li>
+      </ol>
+    </div>
+  </section>
+  
+  <!-- ========================= SECTION CONTENT ========================= -->
+  <section class="section-content bg-white padding-y">
+  <div class="container">
+  
+  <!-- ============================ ITEM DETAIL ======================== -->
+      <div class="row">
+          <aside class="col-md-6">
+  <div class="card">
+  <article class="gallery-wrap"> 
+      <div class="img-big-wrap">
+        <div> <a href="#"><img src="{{product_detail.image.url}}"></a></div>
+      </div> <!-- slider-product.// -->
+      <div class="thumbs-wrap">
+        {% if product_detail.img1 %}
+        <a href="#" class="item-thumb"> <img src="{{product_detail.img1.url}}"></a>
+        {% else %}
+        <a href="#" class="item-thumb">
+        
+        {% endif %}
+        {% if product_detail.img2 %}
+        <a href="#" class="item-thumb"> <img src="{{product_detail.img2.url}}"></a>
+        {% else %}
+        <a href="#" class="item-thumb">
+        
+        {% endif %}
+        {% if product_detail.img3 %}
+        <a href="#" class="item-thumb"> <img src="{{product_detail.img3.url}}"></a>
+        {% else %}
+        <a href="#" class="item-thumb">
+        
+        {% endif %}
+        {% if product_detail.img4 %}
+        <a href="#" class="item-thumb"> <img src="{{product_detail.img4.url}}"></a>
+        {% else %}
+        <a href="#" class="item-thumb">
+        
+        {% endif %}
+      </div> <!-- slider-nav.// -->
+  </article> <!-- gallery-wrap .end// -->
+  </div> <!-- card.// -->
+          </aside>
+          <main class="col-md-6">
+  <article class="product-info-aside">
+  
+  <h2 class="title mt-3">{{product_detail.product_name}} </h2>
+  
+  <div class="rating-wrap my-3">
+      <ul class="rating-stars">
+          <li style="width:80%" class="stars-active"> 
+              <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+              <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+              <i class="fa fa-star"></i> 
+          </li>
+          <li>
+              <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+              <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+              <i class="fa fa-star"></i> 
+          </li>
+      </ul>
+      <small class="label-rating text-muted">132 reviews</small>
+      <small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> 154 orders </small>
+  </div> <!-- rating-wrap.// -->
+  
+  <div class="mb-3"> 
+      <var class="price h4">{{product_detail.price}}</var> 
+  </div> <!-- price-detail-wrap .// -->
+
+ 
+  
+  <p>{{product_detail.desc}} </p>
+  
+  
+  <dl class="row">
+    <dt class="col-sm-3">Manufacturer</dt>
+    <dd class="col-sm-9"><a href="#">{{product_detail.manufacture}}</a></dd>
+  
+  
+  
+    <dt class="col-sm-3">Guarantee</dt>
+    <dd class="col-sm-9">{{product_detail.warrenty}} year</dd>
+  
+    <dt class="col-sm-3">Delivery time</dt>
+    <dd class="col-sm-9">{{product_detail.delivery_time}}</dd>
+  
+    <dt class="col-sm-3">Availabilty</dt>
+    {% if product_detail.stock <= 0  %}
+    <dd class="col-sm-9">Out of stock</dd>
+    {% else %}
+    <dd class="col-sm-9">in Stock</dd>
+
+    {% endif %}
+  </dl>
+  <form action ="{% url "add_cart" product_detail.id %}" method = "POST">
+    {% csrf_token %}
+  <div class="row">
+    <div class="item-option-select">
+        <h6>Choose Color</h6>
+        <select name="color" class = "form-control" required>
+            <option value="" disabled selected>Select an Option</option>
+            {% for i in product_detail.variation_set.colors  %}
+            <option value="{{i.variation_value | lower}}">{{i.variation_value}}</option>
+         {% endfor %}
+        </select>
+    </div>
+</div> <!-- row.// -->
+<div class="row">
+    <div class="item-option-select">
+        <h6>Select Size</h6>
+        <select name="size" class = "form-control">
+            <option value="" disabled selected>Select an Option</option>
+        {% for i in product_detail.variation_set.sizes  %} 
+            <option value="{{i.variation_value| lower }}">{{i.variation_value}}</option>
+{% endfor %} 
+            
+        </select>
+    </div>
+</div> <!-- row.// --> 
+<div class="form-row mt-4">
+    <div class="input-group mb-3 input-spinner">
+        <div class="input-group-prepend">
+            <button class="btn btn-light button-minus" type="button"> 
+                <i class="fa fa-minus"></i> 
+            </button>
+        </div>
+        <input type="text" class="form-control quantity-input" value="1" data-max="{{ total_stock }}" readonly>
+        <div class="input-group-append">
+            <button class="btn btn-light button-plus" type="button"> 
+                <i class="fa fa-plus"></i> 
+            </button>
+        </div>
+    </div>
+</div>
+
+  
+      
+          <div class="form-group col-md">
+            <button type="submit"  class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </button>
+              
+          </div> <!-- col.// -->
+      </div> <!-- row.// -->
+    </form>
+  </article> <!-- product-info-aside .// -->
+          </main> <!-- col.// -->
+      </div> <!-- row.// -->
+  
+  <!-- ================ ITEM DETAIL END .// ================= -->
+  
+  
+  </div> <!-- container .//  -->
+  </section>
+  <!-- ========================= SECTION CONTENT END// ========================= -->
+  
+  <!-- ========================= SECTION  ========================= -->
+  <section class="section-name padding-y bg">
+  <div class="container">
+  
+  <div class="row">
+      <div class="col-md-12">
+          <h5 class="title-description">Description</h5>
+          <p>
+              Lava stone grill, suitable for natural gas, with cast-iron cooking grid, piezo ignition, stainless steel burners, water tank, and thermocouple. Thermostatic adjustable per zone. Comes complete with lava rocks. Adjustable legs. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat. 
+          </p>
+         
+      </div> <!-- col.// -->
+      
+     
+        
+  
+
+  
+          
+      </div> <!-- box.// -->
+      </aside> <!-- col.// -->
+  </div> <!-- row.// -->
+  
+  </div> <!-- container .//  -->
+  </section>
+  <!-- ========================= SECTION CONTENT END// ========================= -->
+  
+{% comment %} # for product quantity {% endcomment %}
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const minusButton = document.querySelector('.button-minus');
+        const plusButton = document.querySelector('.button-plus');
+        const input = document.querySelector('.quantity-input');
+        const max = parseInt(input.getAttribute('data-max'));
+
+        minusButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            let value = parseInt(input.value);
+            if (value > 1) {
+                value -= 1;
+                input.value = value;
+            }
+        });
+
+        plusButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            let value = parseInt(input.value);
+            if (value < max) {
+                value += 1;
+                input.value = value;
+            }
+        });
+    });
+</script>
+  
+
+
+
+
+{% endblock content %}
+
