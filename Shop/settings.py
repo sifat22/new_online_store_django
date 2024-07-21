@@ -82,6 +82,16 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Shop.wsgi.application'
 AUTH_USER_MODEL = 'app_admin_account.Account'
 
+# AUTHENTICATION_BACKENDS = [
+#     'path.to.UserBackend',
+#     'path.to.AdminBackend',
+#     'django.contrib.auth.backends.ModelBackend',
+# ]
+
+# # Use different session engines for user and admin
+# SESSION_ENGINE_USER = 'django.contrib.sessions.backends.db'
+# SESSION_ENGINE_ADMIN = 'django.contrib.sessions.backends.cache'
+
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -134,3 +144,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS= [os.path.join(BASE_DIR,'static')]
 MEDIA_URL='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+
+#for message
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+    
+}

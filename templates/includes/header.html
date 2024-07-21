@@ -25,13 +25,16 @@
                 </div> <!-- col.// -->
                 <div class="col-xl-4 col-lg-4 col-md-6">
                     <div class="widgets-wrap float-md-right">
+                        {% if user.id is not None %}
+                        
                         <div class="widget-header mr-3">
-                            <a href="#" class="widget-view">
+                            
+                            <a href="{%url 'dashboard' %}" class="widget-view">
                                 <div class="icon-area">
                                     <i class="fa fa-user"></i>
                                     <span class="notify">3</span>
                                 </div>
-                                <small class="text"> My profile </small>
+                                <small class="text"> {{user.first_name}}'s profile </small>
                             </a>
                         </div>
                         <div class="widget-header mr-3">
@@ -51,6 +54,34 @@
                                 <small class="text"> Orders </small>
                             </a>
                         </div>
+                        <div class="widget-header mr-3">
+                            <a href="{% url 'logout' %}" class="widget-view">
+                                <div class="icon-area">
+                                    <i class="fa fa-power-off"></i>
+                                </div>
+                                <small class="text"> Logout </small>
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="widget-header mr-3">
+                            <a href="{% url 'login' %}" class="widget-view">
+                                <div class="icon-area">
+                                    <i class="fa fa-login"></i>
+                                </div>
+                                <small class="text"> Login </small>
+                            </a>
+                        </div>
+                        <div class="widget-header mr-3">
+                            <a href="{% url 'register' %}" class="widget-view">
+                                <div class="icon-area">
+                                    <i class="fa fa-register"></i>
+                                </div>
+                                <small class="text"> Register </small>
+                            </a>
+                        </div>
+                        {% endif %}
+
+
                         <div class="widget-header">
                             <a href="{% url "cart" %}" class="widget-view">
                                 <div class="icon-area">

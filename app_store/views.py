@@ -4,7 +4,7 @@ from.models import Product
 from app_brand.models import Brand
 from app_category.models import Category
 from django.db.models import Sum
-from app_wishlist.views import _wishlist_id, product_in_wishlist
+from app_wishlist.views import _wishlist_id
 
 from app_wishlist.models import WishlistItem
 
@@ -16,7 +16,7 @@ def store(request, brand_slug=None, category_slug=None):
     products = None
     categories = None
     brands = None
-    #in_wishlist = False
+    # in_wishlist = None
     
     if category_slug:
         categories = get_object_or_404(Category, slug = category_slug)
@@ -44,8 +44,9 @@ def store(request, brand_slug=None, category_slug=None):
         product_count = products.count()
 
     # try:
-    #     single_product = get_object_or_404(Product, slug=product_in_wishlist)
-    #     in_wishlist = WishlistItem.objects.filter(product = single_product).exists()
+    #     #single_product = Product.objects.all().filter(is_available=True).order_by("-modified_date")
+    #     product = request.product_slug
+    #     in_wishlist = WishlistItem.objects.filter(wishlist__wishlist_id = _wishlist_id(request), product =product).exists()
     # except:
     #     pass
     

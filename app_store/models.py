@@ -2,6 +2,7 @@ from django.db import models
 from app_brand.models import Brand
 from app_category.models import Category
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -37,6 +38,13 @@ class Product(models.Model):
     def __str__(self):
         return self.product_name
     
+    def staff_permission(self,user_id):
+        user = User.objects.get(id= user_id)
+        if user.is_staff==True and user.is_superadmin==True:
+            return user
+    
+
+    
 
 
  #variation manager will help us to diplay the color and size differently
@@ -52,6 +60,7 @@ class VariationManager(models.Manager):
 variation_category_choices = (
     ('color', 'color'),
     ('size', 'size'),
+    
 )
 
 

@@ -25,6 +25,7 @@ urlpatterns = [
     path("store/",include("app_store.urls")),
     path("wishlist/",include("app_wishlist.urls")),
     path('cart/',include('app_cart.urls')),
+    path('accounts/',include('app_admin_account.urls')),
 ]
 
 urlpatterns+=staticfiles_urlpatterns()

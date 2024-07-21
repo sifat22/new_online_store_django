@@ -9,6 +9,7 @@
 <!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-content padding-y">
     <div class="container">
+        {% include "includes/alerts.html" %}
 
         {% if not cart_items %}
 
@@ -51,16 +52,51 @@
             </figure>
         </td>
         <td> 
+            
+            <div class="col"> 
+                <div class="input-group input-spinner">
+                    <div class="input-group-prepend">
+                        <form action= "{% url 'decrease_cart' cart_item.product.id cart_item.id %}" method= "POST">
+                            {% csrf_token %}
+                        {% for item in cart_item.variation.all  %}
+                        <input type="hidden" name="{{item.variation_category | lower}}" value= "{{item.variation_value | capfirst}}">
+                        {% endfor %}
+                        <button class="btn btn-light button-minus" type="submit"> 
+                            <i class="fa fa-minus"></i> 
+                        </button>
+                        </form>
+                    </div>
+                    <input type="text" class="form-control quantity-input"  value="{{cart_item.quantity}}" data-max="{{ cart_item.product.stock }}" readonly>
+                    <div class="input-group-append">
+                        <form action= "{% url 'increase_cart' cart_item.product.id cart_item.id %}" method= "POST">
+                            {% csrf_token %}
+                        {% for item in cart_item.variation.all  %}
+                        <input type="hidden" name="{{item.variation_category | lower}}" value= "{{item.variation_value | capfirst}}">
+                    {% endfor %}
+                    {% if cart_item.quantity < cart_item.product.stock %}
+                    <button class="btn btn-light button-plus" name="{{cart_item.quantity}}" type="submit"> 
+                        <i class="fa fa-plus"></i> 
+                    </button>
+                </form>
+                {% else %}
+                    <button class="btn btn-light button-plus btn-disabled" disabled type="hidden"> 
+                        <i class="fa fa-plus"></i> 
 
-            <div class="input-group mb-3 input-spinner">
-                <div class="input-group-prepend">
-                    <a href="{% url 'decrease_cart' cart_item.product_id %}" class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
-                </div>
-                <input type="text" class="form-control" value="{{cart_item.quantity}}">
-                <div class="input-group-append">
-                    <a href="{% url 'add_cart' cart_item.product_id %}" class="btn btn-light" type="button" id="button-minus"> <i class="fa fa-plus"></i> </a>
-                </div>
-            </div>
+                    </button>
+
+                       
+                    
+                        {% endif %}
+                    
+                       
+                        
+
+                        
+                    
+                        
+                    </div>
+                </div> <!-- input-group.// -->
+            </div> <!-- col.// -->
                   
         </td>
         <td> 
@@ -71,9 +107,8 @@
             </div> <!-- price-wrap .// -->
         </td>
         <td class="text-right"> 
-        <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a> 
-        <a href="{% url 'delete_cart' cart_item.product_id %}" class="btn btn-light"> Remove</a>
-        </td>
+            <a href="{% url 'delete_cart' cart_item.product.id cart_item.id %}" onclick = "return confrim('Are you sure you want to delete this item?')" class="btn btn-danger"> Remove</a>
+            </td>
     </tr>
     {% endfor %}
 
@@ -157,5 +192,17 @@
     </div><!-- container // -->
     </section>
     <!-- ========================= SECTION  END// ========================= -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const input = document.querySelector('.quantity-input');
+            const max = parseInt(input.getAttribute('data-max'));
+    
+           
+        });
+    </script>
+      
+
 
     {% endblock %}
