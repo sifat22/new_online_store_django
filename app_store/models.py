@@ -3,6 +3,8 @@ from app_brand.models import Brand
 from app_category.models import Category
 from django.urls import reverse
 from django.contrib.auth.models import User
+from app_admin_account.models import Account
+from django.db.models.aggregates import Avg, Count
 
 # Create your models here.
 
@@ -43,6 +45,13 @@ class Product(models.Model):
         if user.is_staff==True and user.is_superadmin==True:
             return user
     
+        #get average review
+    def averagereview(self):
+        review=Review.objects.filter(product=self,status=True).aggregate(average=Avg('rating'))
+        avg=0
+        if review['average'] is not None:
+            avg=float(review['average'])
+        return avg
 
     
 
@@ -78,3 +87,24 @@ class Variation(models.Model):
 
     def __str__(self):
         return self.variation_value
+    
+
+class Review(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    subject=models.CharField(max_length=100,blank=True)
+    review=models.TextField(max_length=500,blank=True)
+    rating=models.FloatField()
+    admin_reply = models.TextField(max_length=500,blank=True)
+    ip=models.CharField(max_length=20,null=True)
+    status=models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.subject
+    
+
+    
+
+    

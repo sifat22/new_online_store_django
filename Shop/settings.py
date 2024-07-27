@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'app_store',
     'app_wishlist',
     'app_cart',
+    'app_order',
 ]
 
 MIDDLEWARE = [
@@ -152,3 +153,23 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
     
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+EMAIL_HOST_USER='tousif2018ahamid@gmail.com'
+EMAIL_HOST_PASSWORD='izcd ntum luvk xowz'
+EMAIL_USE_TLS=True
+
+
+# Dummy PayPal Credentials for Sandbox Environment
+PAYPAL_CLIENT_ID = 'AWv6r6meLCSMivdHYqQ0iwRMvXv4EhemUhoH3QbOmqpGyWfExPhXTfaJ4IuGHd76zI6tx3UnOn0cSKfJ'
+PAYPAL_SECRET = 'EMwXJvM0OnLhw5l3g9QFIfLOBpPCxCd5sRqdI8karyq9tiP7jBthqrh3nsgWqR6WDGYKPksCTsAL0TKV'
+PAYPAL_MODE = 'sandbox' 
+
+# Dummy Bkash Credentials for Sandbox Environment
+BKASH_APP_KEY = 'your_bkash_sandbox_app_key'
+BKASH_APP_SECRET = 'your_bkash_sandbox_app_secret'
+BKASH_USERNAME = 'your_bkash_sandbox_username'
+BKASH_PASSWORD = 'your_bkash_sandbox_password'

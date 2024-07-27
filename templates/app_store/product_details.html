@@ -62,8 +62,9 @@
   <div class="rating-wrap my-3">
       <ul class="rating-stars">
           <li style="width:80%" class="stars-active"> 
-              <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-              <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+            
+              <i class="fa fa-star"></i> 
+              <i class="fa fa-star"></i> 
               <i class="fa fa-star"></i> 
           </li>
           <li>
@@ -72,7 +73,7 @@
               <i class="fa fa-star"></i> 
           </li>
       </ul>
-      <small class="label-rating text-muted">132 reviews</small>
+      <small class="label-rating text-muted">{{review_count}} reviews</small>
       <small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> 154 orders </small>
   </div> <!-- rating-wrap.// -->
   
@@ -146,6 +147,18 @@
     </div>
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
   
       
           <div class="form-group col-md">
@@ -159,43 +172,67 @@
       </div> <!-- row.// -->
   
   <!-- ================ ITEM DETAIL END .// ================= -->
-  
-  
-  </div> <!-- container .//  -->
-  </section>
-  <!-- ========================= SECTION CONTENT END// ========================= -->
-  
-  <!-- ========================= SECTION  ========================= -->
-  <section class="section-name padding-y bg">
   <div class="container">
-  
-  <div class="row">
-      <div class="col-md-12">
-          <h5 class="title-description">Description</h5>
-          <p>
-              Lava stone grill, suitable for natural gas, with cast-iron cooking grid, piezo ignition, stainless steel burners, water tank, and thermocouple. Thermostatic adjustable per zone. Comes complete with lava rocks. Adjustable legs. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. 
-          </p>
-         
-      </div> <!-- col.// -->
-      
-     
-        
-  
 
+    <div class="row">
+        <div class="col-md-9">
+
+            
+
+            <form action="{% url 'submit_review' product_detail.brand.id product_detail.category.id product_detail.id  %}" method="POST">
+                {% csrf_token %}
+
+                <h5>Write Your Reviews</h5>
+                
+                <div class="">
+                    <!---Rating Stars-->
+                    <label>How do you rate this product</label>
+                    <br>
+                    <div class="rate">
+                        <input type="radio" name="rating" id="rating10" value="5" required><label for="rating10" title="5"></label>
+                        <input type="radio" name="rating" id="rating9" value="4.5" required><label for="rating9" title="4.5" class="half"></label>
+                        <input type="radio" name="rating" id="rating8" value="4" required><label for="rating8" title="4"></label>
+                        <input type="radio" name="rating" id="rating7" value="3.5" required><label for="rating7" title="3.5" class="half"></label>
+                        <input type="radio" name="rating" id="rating6" value="3" required><label for="rating6" title="3"></label>
+                        <input type="radio" name="rating" id="rating5" value="2.5" required><label for="rating5" title="2.5" class="half"></label>
+                        <input type="radio" name="rating" id="rating4" value="2" required><label for="rating4" title="2"></label>
+                        <input type="radio" name="rating" id="rating3" value="1.5" required><label for="rating3" title="1.5" class="half"></label>
+                        <input type="radio" name="rating" id="rating2" value="1" required><label for="rating2" title="1"></label>
+                        <input type="radio" name="rating" id="rating1" value="0.5" required><label for="rating1" title="0.5" class="half"></label>
+                        
+                    </div>
+                    <br>
+
+                    Review Title:
+                    <input type="text" class="form-control" name="subject" id="">
+                    <br>
+                    Review:
+                    <textarea name="review" id="" class="form-control"  rows="5"></textarea>
+                    <br>
+                    {% if user.is_authenticated %}
+                    {% if is_reviewd  %}
+                    <input type="submit" value="Update Review" class="form-control btn btn-primary">
+                    {% else %}
+                    <input type="submit" value="Submit Review" class="form-control btn btn-primary">
+                    {% endif %}
+                   {% else %}
+
+                    <p>You must be logged in to post a review</p><span><a href="{% url 'login' %}">Login now</a></span>
+                   {% endif %}
+                </div>
+                {% include 'includes/alerts.html' %}
+            </form>
+            <br>
+
+           
+</div> 
   
-          
-      </div> <!-- box.// -->
-      </aside> <!-- col.// -->
-  </div> <!-- row.// -->
   
   </div> <!-- container .//  -->
   </section>
   <!-- ========================= SECTION CONTENT END// ========================= -->
-  
-{% comment %} # for product quantity {% endcomment %}
+
+
 
 
   <script>
